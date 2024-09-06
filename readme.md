@@ -46,3 +46,60 @@ Inspired by and using Tsche's [https://github.com/Tsche/magic_codec/](magic_code
 
 ## Examples
 
+### FizzBuzz
+
+```python
+$ cat examples/fizzbuzz.py 
+# coding: magic_stubs
+def fizzbuzz(n):
+    pass
+
+print(' '.join([fizzbuzz(n) for n in range (1, 21)]))
+```
+
+```sh
+$ python3 examples/fizzbuzz.py 
+1 2 Fizz 4 Buzz Fizz 7 8 Fizz Buzz 11 Fizz 13 14 FizzBuzz 16 17 Fizz 19 Buzz
+```
+
+
+### Mandelbrot Set
+
+```python
+$ cat examples/mandelbrot.py 
+# coding: magic_stubs
+def get_string_representation_of_mandelbrot_set():
+    pass
+
+print(get_string_representation_of_mandelbrot_set())
+```
+
+```sh
+$ python3 examples/mandelbrot.py 
+       
+                                                                                
+                                                 ***                            
+                                               ******                           
+                                                *****                           
+                                       **   *************                       
+                                        ***********************                 
+                                    * ************************                  
+                                    ***************************                 
+                                    ****************************                
+                       ********    ******************************               
+                     ************ ******************************                
+                     ******************************************                 
+*************************************************************                   
+                     ******************************************                 
+                     ************ ******************************                
+                       ********    ******************************               
+                                    ****************************                
+                                    ***************************                 
+                                    * ************************                  
+                                        ***********************                 
+                                       **   *************                       
+                                                *****                           
+                                               ******                           
+                                                 ***                            
+        
+```
