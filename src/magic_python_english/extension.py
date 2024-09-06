@@ -146,7 +146,7 @@ class AddLogDecorator(ast.NodeTransformer):
 
         completion = cached_llm_call(cache_dir, model=MODEL,
             messages=[
-                {"role": "system", "content": "You are a helpful programming assistant which takes stubs of python code and returns fully implemented function. Return only any required imports followed by the function implementation, all wrapped in triple backticks (```). Do NOT return copies of any code from the 'Code Context'. This includes parts of wrapping classes. You may modify the function signature only if needed for it to function, e.g. if the function is a class method but is missing the self parameter."},
+                {"role": "system", "content": "You are a helpful programming assistant which takes stubs of python code and returns fully implemented function. Return ONLY any required imports followed by the function implementation, all wrapped in triple backticks (```). Return NO other code. Do NOT return copies of any code from the 'Code Context'. This includes parts of wrapping classes. You may modify the function signature only if needed for it to function, e.g. if the function is a class method but is missing the self parameter."},
                 {"role": "user", "content": f"Code context:{self.all_code}"},
                 {"role": "user", "content": f"Function stub:{function_stub}"},
                 {"role": "user", "content": f"Function stub line numbers: start:{start_line} end:{end_line}"},
