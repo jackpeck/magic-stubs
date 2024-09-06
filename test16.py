@@ -1,4 +1,4 @@
-# coding: magic_python_english
+# coding: magic_stubs
 
 def get_example_matrix():
     # 3x3 matrix of 1..9

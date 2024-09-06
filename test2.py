@@ -1,4 +1,4 @@
-# coding: magic_python_english
+# coding: magic_stubs
 
 def square(x):
     return x ** 2

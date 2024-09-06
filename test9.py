@@ -1,4 +1,4 @@
-# coding: magic_python_english
+# coding: magic_stubs
 
 def double_wrapper(f):
     return lambda x: f(x) * 2

@@ -1,4 +1,4 @@
-# coding: magic_python_english
+# coding: magic_stubs
 
 def print_hello_world():
     pass

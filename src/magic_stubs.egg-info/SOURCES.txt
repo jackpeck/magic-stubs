@@ -1,0 +1,10 @@
+pyproject.toml
+setup.cfg
+src/magic_stubs/__init__.py
+src/magic_stubs/extension.py
+src/magic_stubs/py.typed
+src/magic_stubs.egg-info/PKG-INFO
+src/magic_stubs.egg-info/SOURCES.txt
+src/magic_stubs.egg-info/dependency_links.txt
+src/magic_stubs.egg-info/not-zip-safe
+src/magic_stubs.egg-info/top_level.txt

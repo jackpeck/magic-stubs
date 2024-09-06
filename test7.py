@@ -1,4 +1,4 @@
-# coding: magic_python_english
+# coding: magic_stubs
 
 def get_string_representation_of_mandlebrot_set():
     pass

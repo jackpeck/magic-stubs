@@ -1,4 +1,4 @@
-# coding: magic_python_english
+# coding: magic_stubs
 
 #do this recursively with some base case
 def is_even(n):
