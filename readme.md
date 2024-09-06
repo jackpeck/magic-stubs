@@ -4,9 +4,7 @@
 
 ## Demo
 
-
 https://github.com/user-attachments/assets/f4d0fb4e-3b24-41d6-87ee-ff5931341219
-
 
 ## Technology
 
@@ -24,6 +22,7 @@ export OPENAI_API_KEY=...
 Add `# coding: magic_stubs` to the top of your python file. Then execute as normal. Magic Stubs will automatically fill in your function definitions where needed.
 
 hello_world.py:
+
 ```python
 # coding: magic_stubs
 
@@ -55,7 +54,6 @@ print(' '.join([fizzbuzz(n) for n in range (1, 21)]))
 $ python3 examples/fizzbuzz.py 
 1 2 Fizz 4 Buzz Fizz 7 8 Fizz Buzz 11 Fizz 13 14 FizzBuzz 16 17 Fizz 19 Buzz
 ```
-
 
 ### Mandelbrot Set
 
@@ -98,7 +96,6 @@ $ python3 examples/mandelbrot.py
         
 ```
 
-
-
 ## Attribution
+
 Inspired by and using Tsche's [magic_codec](https://github.com/Tsche/magic_codec/).

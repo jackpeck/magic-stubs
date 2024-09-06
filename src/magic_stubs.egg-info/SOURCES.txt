@@ -1,5 +1,5 @@
-README.md
 pyproject.toml
+readme.md
 setup.cfg
 src/magic_stubs/__init__.py
 src/magic_stubs/extension.py
