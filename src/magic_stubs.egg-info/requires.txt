@@ -1,0 +1,4 @@
+astor
+appdirs
+openai
+magic_codec

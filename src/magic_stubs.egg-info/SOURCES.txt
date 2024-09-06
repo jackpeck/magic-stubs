@@ -8,4 +8,5 @@ src/magic_stubs.egg-info/PKG-INFO
 src/magic_stubs.egg-info/SOURCES.txt
 src/magic_stubs.egg-info/dependency_links.txt
 src/magic_stubs.egg-info/not-zip-safe
+src/magic_stubs.egg-info/requires.txt
 src/magic_stubs.egg-info/top_level.txt
