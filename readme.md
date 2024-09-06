@@ -17,6 +17,8 @@ pip install magic_stubs
 export OPENAI_API_KEY=...
 ```
 
+Or see the [live demo](https://colab.research.google.com/drive/1TMcjWHtrFfROowxw9lPoWNjQXejEHlpb) on Google Colab.
+
 ## Usage
 
 Add `# coding: magic_stubs` to the top of your python file. Then execute as normal. Magic Stubs will automatically fill in your function definitions where needed.
