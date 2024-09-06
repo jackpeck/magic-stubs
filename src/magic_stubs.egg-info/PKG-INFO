@@ -119,4 +119,4 @@ $ python3 examples/mandelbrot.py
 
 
 ## Attribution
-Inspired by and using Tsche's [https://github.com/Tsche/magic_codec/](magic_codec).
+Inspired by and using Tsche's [magic_codec](https://github.com/Tsche/magic_codec/).
