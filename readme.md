@@ -5,6 +5,10 @@
 ## Demo
 
 
+https://github.com/user-attachments/assets/f4d0fb4e-3b24-41d6-87ee-ff5931341219
+
+
+
 ## Technology
 
 MagicStubs.py uses a combination of abusing source code encodings, LLM calls, and AST rewriting so you don't have to bother writing code.
