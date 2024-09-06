@@ -1,0 +1,18 @@
+Metadata-Version: 2.1
+Name: magic_python_english
+Version: 0.1
+Summary: Example extension for magic_codec
+Home-page: https://github.com/tsche/magic_coddec
+Author: Tsche
+Author-email: contact@palliate.io
+License: MIT
+Project-URL: Bug Tracker, https://github.com/tsche/magic_coddec/issues
+Platform: unix
+Platform: linux
+Platform: osx
+Platform: cygwin
+Platform: win32
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent

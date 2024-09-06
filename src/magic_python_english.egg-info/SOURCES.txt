@@ -1,0 +1,10 @@
+pyproject.toml
+setup.cfg
+src/magic_python_english/__init__.py
+src/magic_python_english/extension.py
+src/magic_python_english/py.typed
+src/magic_python_english.egg-info/PKG-INFO
+src/magic_python_english.egg-info/SOURCES.txt
+src/magic_python_english.egg-info/dependency_links.txt
+src/magic_python_english.egg-info/not-zip-safe
+src/magic_python_english.egg-info/top_level.txt
