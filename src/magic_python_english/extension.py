@@ -9,6 +9,9 @@
 
 import ast
 import astor
+import hashlib
+import json
+import appdirs
 
 from openai import OpenAI 
 import os
@@ -35,6 +38,61 @@ def strip_backticks(s):
 
     return s
 
+def serialize_completion(completion):
+    return {
+        "id": completion.id,
+        "choices": [
+            {
+                "finish_reason": choice.finish_reason,
+                "index": choice.index,
+                "message": {
+                    "content": choice.message.content,
+                    "role": choice.message.role,
+                    "function_call": {
+                        "arguments": json.loads(
+                            choice.message.function_call.arguments) if choice.message.function_call and choice.message.function_call.arguments else None,
+                        "name": choice.message.function_call.name
+                    } if choice.message and choice.message.function_call else None
+                } if choice.message else None
+            } for choice in completion.choices
+        ],
+        "created": completion.created,
+        "model": completion.model,
+        "object": completion.object,
+        "system_fingerprint": completion.system_fingerprint,
+        "usage": {
+            "completion_tokens": completion.usage.completion_tokens,
+            "prompt_tokens": completion.usage.prompt_tokens,
+            "total_tokens": completion.usage.total_tokens
+        }
+    }
+
+
+def cached_llm_call(cache_dir, *args, **kwargs):
+    args_str = ', '.join(map(str, args))
+    kwargs_str = ', '.join(f"{k}={v}" for k, v in kwargs.items())
+    request_str = f"args: ({args_str}), kwargs: {{{kwargs_str}}}"
+    request_hash = hashlib.sha256(request_str.encode()).hexdigest()
+
+    cache_file_path = os.path.join(cache_dir, f'{request_hash}.txt')
+
+    if os.path.exists(cache_file_path):
+        with open(cache_file_path, 'r') as f:
+            lines = f.readlines()
+        if len(lines) > 1:
+            cached_data = lines[1].strip()
+            print(f"Cache hit: {cache_file_path}")
+            return json.loads(cached_data)
+    
+    completion = client.chat.completions.create(*args, **kwargs)
+
+    completion_json = json.dumps(serialize_completion(completion))
+
+    with open(cache_file_path, 'w') as f:
+        f.write(request_str + '\n')
+        f.write(completion_json)
+    return json.loads(completion_json)
+    
 
 class AddLogDecorator(ast.NodeTransformer):
     def __init__(self, all_code):
@@ -65,19 +123,38 @@ class AddLogDecorator(ast.NodeTransformer):
         
         function_stub = astor.to_source(node)
 
-        completion = client.chat.completions.create(
-            model=MODEL,
+        # completion = client.chat.completions.create(
+        #     model=MODEL,
+        #     messages=[
+        #         {"role": "system", "content": "You are a helpful programming assistant which takes stubs of python code and returns fully implemented function. Return only the code wrapped in triple backticks (```)."},
+        #         {"role": "user", "content": f"Code context:{self.all_code}"},
+        #         {"role": "user", "content": f"Function stub:{function_stub}"}
+        #     ]
+        # )
+        # response = completion.choices[0].message.content
+
+        # print(os.)
+
+
+        cache_dir = appdirs.user_cache_dir(appname="python_english")
+        if not os.path.exists(cache_dir):
+            os.makedirs(cache_dir)
+        
+
+        completion = cached_llm_call(cache_dir, model=MODEL,
             messages=[
                 {"role": "system", "content": "You are a helpful programming assistant which takes stubs of python code and returns fully implemented function. Return only the code wrapped in triple backticks (```)."},
                 {"role": "user", "content": f"Code context:{self.all_code}"},
                 {"role": "user", "content": f"Function stub:{function_stub}"}
             ]
         )
-        response = completion.choices[0].message.content
 
-        print('response:', response, '-')
+        response = completion['choices'][0]['message']['content']
+
 
         # response = """```def print_hello_world():\n    print("Hello, World!")```"""
+
+        print('response:', response, '-')
 
         response = strip_backticks(response)
 
