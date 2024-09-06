@@ -6,7 +6,7 @@ import appdirs
 import os
 from openai import OpenAI 
 
-APP_NAME = 'stubs'
+APP_NAME = 'magic-stubs'
 
 MODEL="gpt-4o-mini"
 client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
