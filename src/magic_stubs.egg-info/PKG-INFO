@@ -3,7 +3,7 @@ Name: magic_stubs
 Version: 0.1
 Summary: Auto implement function stubs
 Home-page: https://github.com/jackpeck/magic_stubs
-Author: Jack Peck
+Author: jackpeck
 License: MIT
 Project-URL: Bug Tracker, https://github.com/jackpeck/magic_stubs/issues
 Platform: unix
@@ -15,3 +15,48 @@ Classifier: Programming Language :: Python :: 3
 Classifier: Programming Language :: Python :: 3 :: Only
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
+
+# Magic Stubs
+
+**Magic Stubs** implements your functions for you.
+
+## Demo
+
+
+## Technology
+
+MagicStubs.py uses a combination of abusing source code encodings, LLM calls, and AST rewriting so you don't have to bother writing code.
+
+## Installation
+
+```sh
+pip install magic_stubs
+export OPENAI_API_KEY=...
+```
+
+## Usage
+
+Add `# coding: magic_stubs` to the top of your python file. Then execute as normal.
+
+hello_world.py:
+```python
+# coding: magic_stubs
+
+def print_hello_world():
+    pass
+
+print_hello_world()
+```
+
+```sh
+$ python3 hello_world.py 
+Hello, World!
+```
+
+
+## Attribution
+Inspired by and using Tsche's [https://github.com/Tsche/magic_codec/](magic_codec).
+
+
+## Examples
+

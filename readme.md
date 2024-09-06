@@ -24,7 +24,7 @@ export OPENAI_API_KEY=...
 
 Add `# coding: magic_stubs` to the top of your python file. Then execute as normal.
 
-test.py:
+hello_world.py:
 ```python
 # coding: magic_stubs
 
@@ -35,10 +35,14 @@ print_hello_world()
 ```
 
 ```sh
-$ python3 test.py 
+$ python3 hello_world.py 
 Hello, World!
 ```
 
 
 ## Attribution
 Inspired by and using Tsche's [https://github.com/Tsche/magic_codec/](magic_codec).
+
+
+## Examples
+
