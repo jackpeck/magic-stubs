@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: magic_stubs
-Version: 0.2
+Version: 0.2.1
 Summary: Auto implement function stubs
 Home-page: https://github.com/jackpeck/magic_stubs
 Author: jackpeck
@@ -39,6 +39,8 @@ MagicStubs.py uses a combination of abusing source code encodings, LLM calls, an
 pip install magic_stubs
 export OPENAI_API_KEY=...
 ```
+
+Or see the [live demo](https://colab.research.google.com/drive/1TMcjWHtrFfROowxw9lPoWNjQXejEHlpb) on Google Colab.
 
 ## Usage
 
