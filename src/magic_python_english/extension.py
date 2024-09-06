@@ -20,6 +20,8 @@ MODEL="gpt-4o-mini"
 client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
 
+APP_NAME = 'python_english'
+
 
 
 # print("Assistant: " + completion.choices[0].message.content)
@@ -99,10 +101,36 @@ class AddLogDecorator(ast.NodeTransformer):
         super().__init__()
         self.all_code = all_code
 
-    def visit_FunctionDef(self, node):
-        # print(str(node))
+    def _get_end_line(self, node):
+        """ Helper method to estimate the end line of a node """
+        # For simplicity, assume function body ends at the end of the last statement
+        # More complex cases would require better handling
+        if hasattr(node, 'body') and node.body:
+            last_stmt = node.body[-1]
+            return getattr(last_stmt, 'lineno', node.lineno)
+        return node.lineno
 
-        print(astor.to_source(node))
+        # start_line = node.lineno
+
+        # end_line = node.lineno + 1
+
+        # stripped_src = astor.to_source(node)
+
+
+
+    def visit_FunctionDef(self, node):
+        # Extract the function's start and end line numbers
+        start_line = node.lineno
+        end_line = self._get_end_line(node)
+        
+        # Extract the relevant section from the original source code
+        code_lines = self.all_code.splitlines()
+        function_stub = '\n'.join(code_lines[start_line-1:end_line])
+        
+        # Print the function's code including comments
+        print(function_stub)
+        
+        # print(astor.to_source(node))
         # node.
 
 #         ast2 = ast.parse("""
@@ -121,7 +149,7 @@ class AddLogDecorator(ast.NodeTransformer):
 
         # all_code = 
         
-        function_stub = astor.to_source(node)
+        # function_stub = astor.to_source(node)
 
         # completion = client.chat.completions.create(
         #     model=MODEL,
@@ -136,14 +164,14 @@ class AddLogDecorator(ast.NodeTransformer):
         # print(os.)
 
 
-        cache_dir = appdirs.user_cache_dir(appname="python_english")
+        cache_dir = appdirs.user_cache_dir(appname=APP_NAME)
         if not os.path.exists(cache_dir):
             os.makedirs(cache_dir)
         
 
         completion = cached_llm_call(cache_dir, model=MODEL,
             messages=[
-                {"role": "system", "content": "You are a helpful programming assistant which takes stubs of python code and returns fully implemented function. Return only the code wrapped in triple backticks (```)."},
+                {"role": "system", "content": "You are a helpful programming assistant which takes stubs of python code and returns fully implemented function. Return only any required imports followed by the function implementation, all wrapped in triple backticks (```). Do NOT return copies of any code from the 'Code Context'"},
                 {"role": "user", "content": f"Code context:{self.all_code}"},
                 {"role": "user", "content": f"Function stub:{function_stub}"}
             ]
@@ -164,7 +192,7 @@ class AddLogDecorator(ast.NodeTransformer):
 
         new_ast = ast.parse(response)
         # return node
-        return new_ast.body[0]
+        return new_ast.body
 
 
 def preprocess(data: str):
