@@ -8,7 +8,6 @@
 https://github.com/user-attachments/assets/f4d0fb4e-3b24-41d6-87ee-ff5931341219
 
 
-
 ## Technology
 
 MagicStubs.py uses a combination of abusing source code encodings, LLM calls, and AST rewriting so you don't have to bother writing code.
@@ -22,7 +21,7 @@ export OPENAI_API_KEY=...
 
 ## Usage
 
-Add `# coding: magic_stubs` to the top of your python file. Then execute as normal.
+Add `# coding: magic_stubs` to the top of your python file. Then execute as normal. Magic Stubs will automatically fill in your function definitions where needed.
 
 hello_world.py:
 ```python
@@ -38,11 +37,6 @@ print_hello_world()
 $ python3 hello_world.py 
 Hello, World!
 ```
-
-
-## Attribution
-Inspired by and using Tsche's [https://github.com/Tsche/magic_codec/](magic_codec).
-
 
 ## Examples
 
@@ -103,3 +97,8 @@ $ python3 examples/mandelbrot.py
                                                  ***                            
         
 ```
+
+
+
+## Attribution
+Inspired by and using Tsche's [https://github.com/Tsche/magic_codec/](magic_codec).
