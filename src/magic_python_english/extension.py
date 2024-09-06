@@ -95,28 +95,38 @@ def cached_llm_call(cache_dir, *args, **kwargs):
         f.write(completion_json)
     return json.loads(completion_json)
     
+def is_function_in_class(func_node, tree):
+    if not isinstance(func_node, ast.FunctionDef):
+        raise ValueError("The provided node is not a function.")
+
+    class ParentVisitor(ast.NodeVisitor):
+        def __init__(self):
+            self.in_class = False
+            self.function_node = None
+        
+        def visit_ClassDef(self, node):
+            if self.function_node in [n for n in ast.walk(node)]:
+                print('b')
+                self.in_class = True
+            self.generic_visit(node)
+
+    visitor = ParentVisitor()
+    visitor.function_node = func_node
+    visitor.visit(tree)
+
+    return visitor.in_class
 
 class AddLogDecorator(ast.NodeTransformer):
-    def __init__(self, all_code):
+    def __init__(self, all_code, tree):
         super().__init__()
         self.all_code = all_code
+        self.tree = tree
 
     def _get_end_line(self, node):
-        """ Helper method to estimate the end line of a node """
-        # For simplicity, assume function body ends at the end of the last statement
-        # More complex cases would require better handling
         if hasattr(node, 'body') and node.body:
             last_stmt = node.body[-1]
             return getattr(last_stmt, 'lineno', node.lineno)
         return node.lineno
-
-        # start_line = node.lineno
-
-        # end_line = node.lineno + 1
-
-        # stripped_src = astor.to_source(node)
-
-
 
     def visit_FunctionDef(self, node):
         # Extract the function's start and end line numbers
@@ -127,71 +137,30 @@ class AddLogDecorator(ast.NodeTransformer):
         code_lines = self.all_code.splitlines()
         function_stub = '\n'.join(code_lines[start_line-1:end_line])
         
-        # Print the function's code including comments
         print(function_stub)
-        
-        # print(astor.to_source(node))
-        # node.
-
-#         ast2 = ast.parse("""
-# def print_hello_world():
-#     print("Hello, World!")
-# """)
-        
-#         # print(ast2.body[0])
-
-#         return ast2.body[0]
-
-#         # # Add the @python_english decorator to each function
-#         # decorator = ast.Name(id='python_english', ctx=ast.Load())
-#         # node.decorator_list.append(decorator)
-#         return node
-
-        # all_code = 
-        
-        # function_stub = astor.to_source(node)
-
-        # completion = client.chat.completions.create(
-        #     model=MODEL,
-        #     messages=[
-        #         {"role": "system", "content": "You are a helpful programming assistant which takes stubs of python code and returns fully implemented function. Return only the code wrapped in triple backticks (```)."},
-        #         {"role": "user", "content": f"Code context:{self.all_code}"},
-        #         {"role": "user", "content": f"Function stub:{function_stub}"}
-        #     ]
-        # )
-        # response = completion.choices[0].message.content
-
-        # print(os.)
-
 
         cache_dir = appdirs.user_cache_dir(appname=APP_NAME)
         if not os.path.exists(cache_dir):
             os.makedirs(cache_dir)
-        
+
 
         completion = cached_llm_call(cache_dir, model=MODEL,
             messages=[
-                {"role": "system", "content": "You are a helpful programming assistant which takes stubs of python code and returns fully implemented function. Return only any required imports followed by the function implementation, all wrapped in triple backticks (```). Do NOT return copies of any code from the 'Code Context'"},
+                {"role": "system", "content": "You are a helpful programming assistant which takes stubs of python code and returns fully implemented function. Return only any required imports followed by the function implementation, all wrapped in triple backticks (```). Do NOT return copies of any code from the 'Code Context'. This includes parts of wrapping classes. You may modify the function signature only if needed for it to function, e.g. if the function is a class method but is missing the self parameter."},
                 {"role": "user", "content": f"Code context:{self.all_code}"},
-                {"role": "user", "content": f"Function stub:{function_stub}"}
+                {"role": "user", "content": f"Function stub:{function_stub}"},
+                {"role": "user", "content": f"Function stub line numbers: start:{start_line} end:{end_line}"},
+                {"role": "user", "content": f"Function stub is inside class: {is_function_in_class(node, self.tree)}"}
             ]
         )
 
         response = completion['choices'][0]['message']['content']
 
-
-        # response = """```def print_hello_world():\n    print("Hello, World!")```"""
-
         print('response:', response, '-')
 
         response = strip_backticks(response)
 
-        # return node
-
-        # print(response)
-
         new_ast = ast.parse(response)
-        # return node
         return new_ast.body
 
 
@@ -200,7 +169,7 @@ def preprocess(data: str):
     tree = ast.parse(data)
 
     # Modify the AST to add the @python_english decorator to all functions
-    transformer = AddLogDecorator(data)
+    transformer = AddLogDecorator(data, tree)
     transformed_tree = transformer.visit(tree)
 
     # Convert the modified AST back into source code
