@@ -1,12 +1,11 @@
 Metadata-Version: 2.1
 Name: magic_stubs
 Version: 0.1
-Summary: Example extension for magic_codec
-Home-page: https://github.com/tsche/magic_coddec
-Author: Tsche
-Author-email: contact@palliate.io
+Summary: Auto implement function stubs
+Home-page: https://github.com/jackpeck/magic_stubs
+Author: Jack Peck
 License: MIT
-Project-URL: Bug Tracker, https://github.com/tsche/magic_coddec/issues
+Project-URL: Bug Tracker, https://github.com/jackpeck/magic_stubs/issues
 Platform: unix
 Platform: linux
 Platform: osx
