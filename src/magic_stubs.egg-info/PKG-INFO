@@ -1,11 +1,11 @@
 Metadata-Version: 2.1
 Name: magic_stubs
-Version: 0.2.1
+Version: 0.2.2
 Summary: Auto implement function stubs
-Home-page: https://github.com/jackpeck/magic_stubs
+Home-page: https://github.com/jackpeck/magic-stubs
 Author: jackpeck
 License: MIT
-Project-URL: Bug Tracker, https://github.com/jackpeck/magic_stubs/issues
+Project-URL: Bug Tracker, https://github.com/jackpeck/magic-stubs/issues
 Platform: unix
 Platform: linux
 Platform: osx
