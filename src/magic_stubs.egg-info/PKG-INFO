@@ -36,7 +36,7 @@ MagicStubs.py uses a combination of abusing source code encodings, LLM calls, an
 ## Installation
 
 ```sh
-pip install magic_stubs
+pip install magic-stubs
 export OPENAI_API_KEY=...
 ```
 
