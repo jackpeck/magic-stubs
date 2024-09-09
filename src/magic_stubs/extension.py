@@ -139,12 +139,31 @@ class ImplementFunctions(ast.NodeTransformer):
         response = strip_backticks(raw_response)
         new_ast = ast.parse(response)
         return new_ast.body
+    
+def remove_coding_line_if_present(source_code):
+    """
+    Normally this preprocessor is called with the
+    `# coding: magic_stubs` line already removed.
+    However if the generated code crashes, it will
+    be called again during the generation of the
+    stack trace, and in this case the `# coding ...`
+    line will not have been removed.
+
+    We solve this by stripping the  `# coding ...`
+    line from the context if present, ensuring the
+    context is the same on subsequent calls even in
+    the case of crashes.
+    """
+    magic_lines = ('# coding: magic_stubs', '# coding: magic-stubs')
+    if source_code.startswith(magic_lines):
+        return source_code[source_code.index('\n'):]
+    return source_code
 
 
-def preprocess(data: str):
-    tree = ast.parse(data)
-
-    transformer = ImplementFunctions(data, tree)
+def preprocess(source_code: str):
+    source_code = remove_coding_line_if_present(source_code)
+    tree = ast.parse(source_code)
+    transformer = ImplementFunctions(source_code, tree)
     transformed_tree = transformer.visit(tree)
 
     new_source_code = astor.to_source(transformed_tree)
